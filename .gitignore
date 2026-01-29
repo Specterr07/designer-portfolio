@@ -10,3 +10,4 @@ server/.env
 
 # Ignore OS files
 .DS_Store
+.vscode
