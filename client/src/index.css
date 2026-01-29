@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+/* Custom Markdown Styles (Replacement for @tailwindcss/typography) */
+.prose h1 {
+  @apply text-4xl font-serif font-bold mt-8 mb-4 text-gray-900;
+}
+.prose h2 {
+  @apply text-3xl font-serif font-bold mt-6 mb-3 text-gray-900;
+}
+.prose h3 {
+  @apply text-2xl font-serif font-bold mt-5 mb-2 text-gray-900;
+}
+.prose p {
+  @apply mb-4 leading-relaxed text-gray-700;
+}
+.prose ul {
+  @apply list-disc list-inside mb-4;
+}
+.prose ol {
+  @apply list-decimal list-inside mb-4;
+}
+.prose a {
+  @apply text-blue-600 underline;
+}
+.prose blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic my-4;
+}
