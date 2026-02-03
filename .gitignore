@@ -11,3 +11,6 @@ server/.env
 # Ignore OS files
 .DS_Store
 .vscode
+
+# Seed a admin file
+server/seedAdmin.js

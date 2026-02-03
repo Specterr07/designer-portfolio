@@ -1,5 +1,6 @@
 import express from "express";
 import Project from "../models/Projects.js";
+import authMiddleware from '../middleware/authMiddleware.js'; // <--- Import Guard
 
 
 const router = express.Router();
@@ -26,7 +27,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
 
     const newProject = new Project({
         title: req.body.title,
@@ -48,7 +49,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
     try {
         const project = await Project.findById(req.params.id);
         if (project) {
@@ -62,7 +63,7 @@ router.delete('/:id', async (req, res) => {
     } 
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
     try {
         const project = await Project.findById(req.params.id); //storing the project from DB here using the id.
 

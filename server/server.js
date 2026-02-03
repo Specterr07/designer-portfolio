@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import projectRoutes from "./routes/projectRoutes.js"
+import authRoutes from './routes/auth.js'; // <--- Add this
+import authMiddleware from './middleware/authMiddleware.js'; // <--- Add this
 
 dotenv.config();
 const app = express();
@@ -16,8 +18,8 @@ app.get('/', (req, res) => {
 });
 
 
-
 const PORT = process.env.PORT || 8000;
+app.use('/api/auth', authRoutes); // <--- This enables /api/auth/login
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // MongoDB Work!
