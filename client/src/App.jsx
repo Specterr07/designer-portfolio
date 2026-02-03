@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import ProjectDetails from './pages/ProjectDetails';
+import Login from './pages/Login'; 
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 export default function App() {
@@ -12,7 +14,14 @@ export default function App() {
     <Navbar/>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
       <Route path="/project/:id" element={<ProjectDetails />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>

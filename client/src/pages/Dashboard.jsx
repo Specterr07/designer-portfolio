@@ -79,7 +79,9 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this project?")) return;
     try {
-      await fetch(`${API_URL}/api/projects/${id}`, { method: 'DELETE' });
+      await fetch(`${API_URL}/api/projects/${id}`, { method: 'DELETE', headers: {
+    'x-auth-token': localStorage.getItem('token') } 
+    });
       setProjects(projects.filter((p) => p._id !== id));
     } catch (error) {
       console.error("Error deleting:", error);
@@ -99,7 +101,7 @@ const Dashboard = () => {
     try {
       const response = await fetch(url, {
         method: method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('token') },
         body: JSON.stringify(payload),
       });
 
