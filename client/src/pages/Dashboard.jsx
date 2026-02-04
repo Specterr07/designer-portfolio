@@ -34,6 +34,9 @@ const Dashboard = () => {
   const fetchProjects = async () => {
     try {
       const res = await fetch(`${API_URL}/api/projects`);
+      if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+      }
       const data = await res.json();
       setProjects(data);
     } catch (error) {
@@ -79,12 +82,25 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this project?")) return;
     try {
-      await fetch(`${API_URL}/api/projects/${id}`, { method: 'DELETE', headers: {
-    'x-auth-token': localStorage.getItem('token') } 
-    });
+      const response = await fetch(`${API_URL}/api/projects/${id}`, { 
+        method: 'DELETE', 
+        headers: {'x-auth-token': localStorage.getItem('token') } 
+      });
+
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login'; 
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       setProjects(projects.filter((p) => p._id !== id));
     } catch (error) {
       console.error("Error deleting:", error);
+      alert("❌ Error deleting project");
     }
   };
 
@@ -105,13 +121,28 @@ const Dashboard = () => {
         body: JSON.stringify(payload),
       });
 
+              // --- NEW CODE STARTS HERE ---
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login'; 
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // --- NEW CODE ENDS HERE ---
+
       if (response.ok) {
         alert(editingId ? "✅ Project Updated!" : "✅ Project Added!");
         handleCancelEdit(); // Reset form
         fetchProjects();    // Refresh list
       }
+
+
     } catch (error) {
       alert("❌ Error saving project");
+      console.error(`error message: ${error.message || error}`);
     }
   };
 
